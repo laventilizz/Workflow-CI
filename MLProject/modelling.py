@@ -31,7 +31,6 @@ def train_model():
     y_test = test_df[target_col]
 
     # setup mlflow local & autolog
-    mlflow.set_tracking_uri("https://127.0.0.1:5000/")
     mlflow.set_experiment("Water_Quality")
 
     print("start training")
