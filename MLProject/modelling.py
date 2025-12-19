@@ -35,6 +35,8 @@ def train_model():
     mlflow.set_experiment("Water_Quality")
 
     print("start training")
+
+    mlflow.sklearn.autolog()
     
     with mlflow.start_run() as run:
         run_id = run.info.run_id
