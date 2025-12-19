@@ -5,6 +5,7 @@ import dagshub
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
 import os
+import time
 
 DAGSHUB_USERNAME = "laventilizz"
 REPO_NAME = "Eksperimen_SML_zaza"
@@ -54,6 +55,10 @@ def train_model():
         print(f"Saving Run ID to: {run_id_path}")
         with open(run_id_path, "w") as f:
             f.write(run_id)
+
+    print("Waiting 15 seconds for artifacts to sync...")
+    time.sleep(15)
+    print("Done.")
 
 if __name__ == "__main__":
     train_model()
