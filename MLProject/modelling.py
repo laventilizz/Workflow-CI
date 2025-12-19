@@ -14,6 +14,7 @@ def train_model():
     base_dir = os.path.dirname(os.path.abspath(__file__))
     train_path = os.path.join(base_dir, 'water_preprocessing/train_clean.csv')
     test_path = os.path.join(base_dir, 'water_preprocessing/test_clean.csv')
+    run_id_path = os.path.join(base_dir, 'run_id.txt')
 
     if not os.path.exists(train_path):
         print(f"Error: File {train_path} not found")
@@ -35,7 +36,10 @@ def train_model():
 
     print("start training")
     
-    with mlflow.start_run():
+    with mlflow.start_run() as run:
+        run_id = run.info.run_id
+        print(f"Active Run ID: {run_id}")
+
         clf = RandomForestClassifier(n_estimators=100, random_state=42)
         
         clf.fit(X_train, y_train)
@@ -43,6 +47,10 @@ def train_model():
         y_pred = clf.predict(X_test)
         acc = accuracy_score(y_test, y_pred)
         print(f"Training Selesai! Akurasi: {acc}")
+
+        print(f"Saving Run ID to: {run_id_path}")
+        with open(run_id_path, "w") as f:
+            f.write(run_id)
 
 if __name__ == "__main__":
     train_model()
