@@ -12,8 +12,8 @@ dagshub.init(repo_owner=DAGSHUB_USERNAME, repo_name=REPO_NAME, mlflow=True)
              
 def train_model():
     base_dir = os.path.dirname(os.path.abspath(__file__))
-    train_path = os.path.join(base_dir, 'data/train_clean.csv') 
-    test_path = os.path.join(base_dir, 'data/test_clean.csv')
+    train_path = os.path.join(base_dir, 'water_preprocessing/train_clean.csv')
+    test_path = os.path.join(base_dir, 'water_preprocessing/test_clean.csv')
     run_id_path = os.path.join(base_dir, 'run_id.txt')
 
     if not os.path.exists(train_path):
@@ -31,6 +31,7 @@ def train_model():
     X_test = test_df.drop(target_col, axis=1)
     y_test = test_df[target_col]
 
+    # setup mlflow local & autolog
     mlflow.set_experiment("Water_Quality")
 
     print("start training")
@@ -40,16 +41,15 @@ def train_model():
         print(f"Active Run ID: {run_id}")
 
         clf = RandomForestClassifier(n_estimators=100, random_state=42)
+        
         clf.fit(X_train, y_train)
         
-        # Evaluasi
         y_pred = clf.predict(X_test)
         acc = accuracy_score(y_test, y_pred)
         print(f"Training Selesai! Akurasi: {acc}")
 
+        mlflow.log_params("n_estimators", 100)
         mlflow.log_metric("accuracy", acc)
-        mlflow.log_param("n_estimators", 100)
-
         mlflow.sklearn.log_model(clf, "model")
 
         print(f"Saving Run ID to: {run_id_path}")
