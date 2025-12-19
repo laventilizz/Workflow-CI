@@ -6,8 +6,8 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
 import os
 
-DAGSHUB_USERNAME = "USERNAME_DAGSHUB_KAMU"
-REPO_NAME = "Submission_Water_Quality"
+DAGSHUB_USERNAME = "laventilizz"
+REPO_NAME = "Eksperimen_SML_zaza"
 dagshub.init(repo_owner=DAGSHUB_USERNAME, repo_name=REPO_NAME, mlflow=True)
              
 def train_model():
@@ -32,7 +32,7 @@ def train_model():
 
     # setup mlflow local & autolog
     mlflow.set_tracking_uri("https://127.0.0.1:5000/")
-    mlflow.set_experiment("Water_Quality_basic")
+    mlflow.set_experiment("Water_Quality")
 
     print("start training")
     
