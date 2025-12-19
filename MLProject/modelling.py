@@ -48,7 +48,6 @@ def train_model():
         acc = accuracy_score(y_test, y_pred)
         print(f"Training Selesai! Akurasi: {acc}")
 
-        mlflow.log_params("n_estimators", 100)
         mlflow.log_metric("accuracy", acc)
         mlflow.sklearn.log_model(clf, "model")
 
