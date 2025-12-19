@@ -9,6 +9,8 @@ import time
 
 DAGSHUB_USERNAME = "laventilizz"
 REPO_NAME = "Eksperimen_SML_zaza"
+remote_server_uri = f"https://dagshub.com/{DAGSHUB_USERNAME}/{REPO_NAME}.mlflow"
+mlflow.set_tracking_uri(remote_server_uri)
 dagshub.init(repo_owner=DAGSHUB_USERNAME, repo_name=REPO_NAME, mlflow=True)
              
 def train_model():
