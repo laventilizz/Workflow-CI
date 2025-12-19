@@ -45,6 +45,7 @@ def train_model():
         clf = RandomForestClassifier(n_estimators=100, random_state=42)
         
         clf.fit(X_train, y_train)
+        mlflow.sklearn.log_model(clf, "model")
         
         y_pred = clf.predict(X_test)
         acc = accuracy_score(y_test, y_pred)
