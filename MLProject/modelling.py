@@ -11,6 +11,7 @@ DAGSHUB_USERNAME = "laventilizz"
 REPO_NAME = "Eksperimen_SML_zaza"
 remote_server_uri = f"https://dagshub.com/{DAGSHUB_USERNAME}/{REPO_NAME}.mlflow"
 mlflow.set_tracking_uri(remote_server_uri)
+print(mlflow.get_tracking_uri())
 dagshub.init(repo_owner=DAGSHUB_USERNAME, repo_name=REPO_NAME, mlflow=True)
              
 def train_model():
@@ -60,6 +61,7 @@ def train_model():
         # 2. SIMPAN LOKAL (Untuk Docker Build - Biar Gak Error Download)
         print(f"Saving locally to {local_model_path}...")
         mlflow.sklearn.save_model(clf, local_model_path)
+        print("Model successfully logged")
 
         print(f"Saving Run ID to: {run_id_path}")
         with open(run_id_path, "w") as f:

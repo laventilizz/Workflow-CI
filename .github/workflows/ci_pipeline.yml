@@ -5,7 +5,7 @@ on:
     branches: [ main ]
 
 env:
-  MLFLOW_TRACKING_URI: https://dagshub.com/laventilizz/Eksperimen_SML_zaza.mlflow
+  MLFLOW_TRACKING_URI: "https://dagshub.com/${{ secrets.DAGSHUB_USERNAME }}/${{ secrets.DAGSHUB_REPO_NAME }}.mlflow"
 
 jobs:
   build-and-deploy:
@@ -60,7 +60,7 @@ jobs:
           DAGSHUB_USER_TOKEN: ${{ secrets.DAGSHUB_TOKEN }}
         run: |
           mlflow models build-docker \
-            -m "MLProject/model" \
+            -m "runs:/${{ env.RUN_ID }}/model" \
             -n "${{ secrets.DOCKER_USERNAME }}/water-quality-model:latest" \
             --enable-mlserver
 
