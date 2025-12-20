@@ -2,6 +2,7 @@ import pandas as pd
 import mlflow
 import mlflow.sklearn
 import dagshub
+from mlflow.tracking import MlflowClient
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
 import os
@@ -67,9 +68,33 @@ def train_model():
         with open(run_id_path, "w") as f:
             f.write(run_id)
 
-    print("Waiting 60 seconds for artifacts to sync...")
-    time.sleep(60)
-    print("Done.")
+    # --- BAGIAN PENTING: VERIFIKASI UPLOAD ---
+    # Kita tidak akan membiarkan script mati sebelum DagsHub mengonfirmasi file ada
+    print("Verifying artifact upload on server...")
+    client = MlflowClient()
+    
+    max_retries = 10
+    found = False
+    
+    for i in range(max_retries):
+        try:
+            # Tanya ke server: "Apa saja file di Run ID ini?"
+            artifacts = client.list_artifacts(run_id)
+            # Cek apakah ada folder bernama 'model'
+            if any(a.path == 'model' for a in artifacts):
+                print(f"SUCCESS: Model artifact found on DagsHub (Attempt {i+1})")
+                found = True
+                break
+        except Exception as e:
+            print(f"Check failed: {e}")
+        
+        print(f"Artifact not ready yet. Waiting 10s... (Attempt {i+1}/{max_retries})")
+        time.sleep(10)
+
+    if not found:
+        print("WARNING: Script finished but artifact was not verified on server.")
+    else:
+        print("Verification complete. Safe to exit.")
 
 if __name__ == "__main__":
     train_model()
