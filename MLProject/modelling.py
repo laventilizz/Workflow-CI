@@ -67,8 +67,8 @@ def train_model():
         with open(run_id_path, "w") as f:
             f.write(run_id)
 
-    print("Waiting 15 seconds for artifacts to sync...")
-    time.sleep(15)
+    print("Waiting 60 seconds for artifacts to sync...")
+    time.sleep(60)
     print("Done.")
 
 if __name__ == "__main__":
