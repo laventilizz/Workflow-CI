@@ -38,9 +38,6 @@ def train_model():
     X_test = test_df.drop(target_col, axis=1)
     y_test = test_df[target_col]
 
-    # setup mlflow local & autolog
-    mlflow.set_experiment("Water_Quality")
-
     print("start training")
     
     with mlflow.start_run() as run:
