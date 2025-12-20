@@ -60,7 +60,7 @@ jobs:
           DAGSHUB_USER_TOKEN: ${{ secrets.DAGSHUB_TOKEN }}
         run: |
           mlflow models build-docker \
-            -m "runs:/${{ env.RUN_ID }}/model" \
+            -m "MLProject/model" \
             -n "${{ secrets.DOCKER_USERNAME }}/water-quality-model:latest" \
             --enable-mlserver
 

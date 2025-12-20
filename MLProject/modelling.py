@@ -18,6 +18,7 @@ def train_model():
     train_path = os.path.join(base_dir, 'water_preprocessing/train_clean.csv')
     test_path = os.path.join(base_dir, 'water_preprocessing/test_clean.csv')
     run_id_path = os.path.join(base_dir, 'run_id.txt')
+    local_model_path = os.path.join(base_dir, 'model')
 
     if not os.path.exists(train_path):
         print(f"Error: File {train_path} not found")
@@ -47,12 +48,18 @@ def train_model():
         
         clf.fit(X_train, y_train)
         
-        y_pred = clf.predict(X_test)
-        acc = accuracy_score(y_test, y_pred)
-        print(f"Training Selesai! Akurasi: {acc}")
-
+        # Evaluasi
+        acc = accuracy_score(y_test, clf.predict(X_test))
+        print(f"Akurasi: {acc}")
         mlflow.log_metric("accuracy", acc)
+
+        # 1. UPLOAD KE DAGSHUB (Untuk Syarat Penilaian)
+        print("Uploading to DagsHub...")
         mlflow.sklearn.log_model(clf, "model")
+        
+        # 2. SIMPAN LOKAL (Untuk Docker Build - Biar Gak Error Download)
+        print(f"Saving locally to {local_model_path}...")
+        mlflow.sklearn.save_model(clf, local_model_path)
 
         print(f"Saving Run ID to: {run_id_path}")
         with open(run_id_path, "w") as f:
