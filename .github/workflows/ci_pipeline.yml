@@ -50,9 +50,9 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: run-id-and-model artifact
-          path: 
+          path: |
             MLProject/run_id.txt
-            MLProject/model
+            MLProject/model/
 
       - name: Build Docker Model
         env:
