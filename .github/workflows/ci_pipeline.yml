@@ -49,8 +49,10 @@ jobs:
       - name: Upload to Github
         uses: actions/upload-artifact@v4
         with:
-          name: run-id-artifact
-          path: MLProject/run_id.txt
+          name: run-id-and-model artifact
+          path: 
+            MLProject/run_id.txt
+            MLProject/model
 
       - name: Build Docker Model
         env:
@@ -59,7 +61,7 @@ jobs:
           DAGSHUB_USER_TOKEN: ${{ secrets.DAGSHUB_TOKEN }}
         run: |
           mlflow models build-docker \
-            -m "runs:/${{ env.RUN_ID }}/model" \
+            -m "MLProject/model" \
             -n "${{ secrets.DOCKER_USERNAME }}/water-quality-model:latest" \
             --enable-mlserver
 
