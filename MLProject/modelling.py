@@ -9,7 +9,7 @@ import time
 
 DAGSHUB_USERNAME = "laventilizz"
 REPO_NAME = "Eksperimen_SML_zaza"
-remote_server_uri = f"https://dagshub.com/{DAGSHUB_USERNAME}/{REPO_NAME}.mlflow"
+remote_server_uri = os.getenv('MLFLOW_TRACKING_URI', default=f"https://dagshub.com/{DAGSHUB_USERNAME}/{REPO_NAME}.mlflow")
 mlflow.set_tracking_uri(remote_server_uri)
 print(mlflow.get_tracking_uri())
 dagshub.init(repo_owner=DAGSHUB_USERNAME, repo_name=REPO_NAME, mlflow=True)

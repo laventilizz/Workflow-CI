@@ -36,6 +36,7 @@ jobs:
         run: |
           cd MLProject
           python modelling.py
+          sleep 60
 
       - name: Get latest MLflow run_id
         id: get_run_id
