@@ -11,16 +11,6 @@ import time
 DAGSHUB_USERNAME = "laventilizz"
 REPO_NAME = "Eksperimen_SML_zaza"
 
-token = os.environ.get("DAGSHUB_TOKEN") or os.environ.get("MLFLOW_TRACKING_PASSWORD")
-
-if token:
-    print("Setting up explicit S3 Credentials for DagsHub...")
-    os.environ["AWS_ACCESS_KEY_ID"] = token
-    os.environ["AWS_SECRET_ACCESS_KEY"] = token
-    os.environ["MLFLOW_S3_ENDPOINT_URL"] = "https://dagshub.com/api/v1/repo_buckets/s3"
-else:
-    print("WARNING: No Token found. Upload might fail.")
-
 remote_server_uri = os.getenv('MLFLOW_TRACKING_URI', default=f"https://dagshub.com/{DAGSHUB_USERNAME}/{REPO_NAME}.mlflow")
 mlflow.set_tracking_uri(remote_server_uri)
 print(mlflow.get_tracking_uri())
